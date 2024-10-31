@@ -15,8 +15,11 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@vieknam/shared-libs": ["libs/shared-libs/src/index.ts"],
+      "@vieknam/shared-types": ["libs/shared-types/src/index.ts"],
       "@vieknam/shared-ui": ["libs/shared-ui/src/index.ts"],
-      "@vieknam/shared-ui/server": ["libs/shared-ui/src/server.ts"]
+      "@vieknam/shared-ui/server": ["libs/shared-ui/src/server.ts"],
+      "@vieknam/shared-validation": ["libs/shared-validation/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

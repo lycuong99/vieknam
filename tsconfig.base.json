@@ -14,7 +14,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@vieknam/shared-ui": ["libs/shared-ui/src/index.ts"],
+      "@vieknam/shared-ui/server": ["libs/shared-ui/src/server.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

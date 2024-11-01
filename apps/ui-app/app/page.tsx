@@ -1,3 +1,4 @@
+import { Button } from '@shadcn-in-nx/ui/button';
 export default function Index() {
   /*
    * Replace the elements below with your own.
@@ -13,6 +14,7 @@ export default function Index() {
               <span> Hello there, </span>
               Welcome ui-app 👋
             </h1>
+            <Button>heelo</Button>
           </div>
 
           <div id="hero" className="rounded">

@@ -1,3 +1,4 @@
+import '@shadcn-in-nx/styles/global.css';
 import './global.css';
 
 export const metadata = {

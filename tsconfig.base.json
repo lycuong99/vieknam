@@ -17,6 +17,9 @@
     "paths": {
       "@vieknam/shared-libs": ["libs/shared-libs/src/index.ts"],
       "@vieknam/shared-models": ["libs/shared-models/src/index.ts"],
+      "@shadcn-in-nx/styles/*": ["libs/shared-ui/src/styles/*"],
+      "@shadcn-in-nx/ui": ["libs/shared-ui/src/ui"],
+      "@shadcn-in-nx/utils": ["libs/shared-ui/src/lib/utils.ts"],
       "@vieknam/shared-ui": ["libs/shared-ui/src/index.ts"],
       "@vieknam/shared-ui/server": ["libs/shared-ui/src/server.ts"],
       "@vieknam/shared-validation": ["libs/shared-validation/src/index.ts"]

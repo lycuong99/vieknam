@@ -1,0 +1,149 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum UserStatus {
+  INACTIVE
+  ACTIVE
+}
+
+enum MemberRole {
+  GUE
+  MEMBER
+  MANAGER
+  LEADER
+}
+
+enum OrganizationRole {
+  ADMIN
+  MEMBER
+}
+
+enum InvitationStatus {
+  REJECTED
+  ACCEPTED
+  PENDING
+}
+
+enum TaskPriority {
+  URGENT
+  HIGH
+  NORMAL
+  LOW
+}
+
+model User {
+  id                  String                @id @default(auto()) @map("_id") @db.ObjectId
+  email               String
+  password            String
+  name                String?
+  status              UserStatus?
+  country             String?
+  bio                 String?
+  photo               String?
+  dob                 DateTime?
+  members             Members[]
+  organizationMembers OrganizationMembers[]
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  createdBy           String?
+  updatedBy           String?
+}
+
+model Organization {
+  id     String  @id @default(auto()) @map("_id") @db.ObjectId
+  name   String  @unique
+  cover  String?
+  avatar String?
+  desc   String?
+}
+
+model OrganizationMembers {
+  id     String           @id @default(auto()) @map("_id") @db.ObjectId
+  uid    String           @db.ObjectId
+  users  User             @relation(fields: [uid], references: [id])
+  status InvitationStatus
+  role   OrganizationRole
+}
+
+model Task {
+  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  desc          String?
+  dueDate       DateTime?
+  startDate     DateTime?
+  projectId     String       @db.ObjectId
+  priority      TaskPriority
+  taskStatusIds String[]     @db.ObjectId
+  tagIds        String[]
+  assigneeIds   String[]     @db.ObjectId
+  parentTaskId  String?      @db.ObjectId
+
+  taskPoint Int?
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+  createdBy String?
+  updatedBy String?
+}
+
+model TaskStatus {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  color     String
+  order     Int
+  projectId String @db.ObjectId
+}
+
+model Tag {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  color     String
+  projectId String @db.ObjectId
+}
+
+model TaskPoint {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  point     Int
+  projectId String  @db.ObjectId
+  icon      String?
+}
+
+model Project {
+  id             String  @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  desc           String?
+  cover          String?
+  iconn          String?
+  organizationId String?
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+  createdBy String?
+  updatedBy String?
+}
+
+model Members {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  users User   @relation(fields: [uid], references: [id])
+  uid   String @db.ObjectId
+
+  projectId String     @db.ObjectId
+  role      MemberRole
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+  createdBy String?
+  updatedBy String?
+}

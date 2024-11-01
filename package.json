@@ -2,9 +2,14 @@
   "name": "@vieknam/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "prisma": "prisma",
+    "generate": "prisma generate --schema=.\\libs\\shared-models\\src\\prisma\\schema.prisma",
+    "postinstall": "prisma generate"
+  },
   "private": true,
   "dependencies": {
+    "@prisma/client": "^5.21.1",
     "@radix-ui/react-slot": "^1.1.0",
     "axios": "^1.6.0",
     "class-variance-authority": "^0.7.0",
@@ -12,6 +17,7 @@
     "express": "^4.18.1",
     "lucide-react": "^0.454.0",
     "next": "14.2.3",
+    "prisma": "^5.21.1",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "tailwind-merge": "^2.5.4",
@@ -50,7 +56,7 @@
     "autoprefixer": "10.4.13",
     "babel-jest": "^29.7.0",
     "cypress": "^13.13.0",
-    "eslint": "^9.8.0",
+    "eslint": "^8.57.1",
     "eslint-config-next": "14.2.3",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-cypress": "^3.5.0",

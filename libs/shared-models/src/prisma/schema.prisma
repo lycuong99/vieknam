@@ -19,7 +19,7 @@ enum UserStatus {
 }
 
 enum MemberRole {
-  GUE
+  GUEST
   MEMBER
   MANAGER
   LEADER
@@ -136,6 +136,7 @@ model Project {
 
 model Members {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
+
   users User   @relation(fields: [uid], references: [id])
   uid   String @db.ObjectId
 

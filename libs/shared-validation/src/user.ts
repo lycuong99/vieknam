@@ -1,5 +1,5 @@
 import { User } from '@prisma/client';
-import { safeParse } from 'libs/shared-validation/src/lib';
+import { safeParse } from './lib';
 import { z } from 'zod';
 
 const user = z

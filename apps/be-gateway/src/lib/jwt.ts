@@ -36,3 +36,7 @@ export function verifyRefreshToken(token: string) {
 		});
 	});
 }
+
+export const extractToken = (token: string) => {
+	return verify(token, JWT_SECRET_KEY);
+};

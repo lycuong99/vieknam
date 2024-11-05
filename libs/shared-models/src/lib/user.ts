@@ -1,5 +1,5 @@
 import { User } from '@prisma/client';
-import { userModel } from 'libs/shared-models/src/lib/_prisma';
+import { userModel } from './_prisma';
 
 export const mdUserFindEmail = async (email: string) => {
 	return userModel.findFirst({

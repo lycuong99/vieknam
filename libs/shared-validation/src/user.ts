@@ -17,12 +17,19 @@ const user = z
 		updatedAt: z.date()
 	})
 	.partial();
-
 const registerUserSchema = user.required({
 	email: true,
 	name: true,
 	password: true
 });
+export const signUpUserSchema = registerUserSchema
+	.extend({
+		confirmPassword: z.string()
+	})
+	.refine(data => data.password === data.confirmPassword, {
+		message: "Passwords don't match.",
+		path: ['confirmPassword']
+	});
 
 const loginUserSchema = user.required({
 	email: true,

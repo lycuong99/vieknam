@@ -5,10 +5,10 @@
         "@shared/libs": ["libs/shared-libs/src/index.ts"],
         "@shared/models": ["libs/shared-models/src/index.ts"],
         "@shadcn-in-nx/styles/*": ["libs/shared-ui/src/styles/*"],
-        "@shadcn-in-nx/ui": ["libs/shared-ui/src/ui/index.ts"],
+        "@shadcn-in-nx/ui": ["libs/shared-ui/src/ui"],
         "@shadcn-in-nx/ui/*": ["libs/shared-ui/src/ui/*"],
         "@shadcn-in-nx/utils": ["libs/shared-ui/src/lib/utils.ts"],
-        "@shared/ui": ["libs/shared-ui/src/index.ts"],
+        "@shared/ui": ["libs/shared-ui/src/index.tsx"],
         "@shared/ui/server": ["libs/shared-ui/src/server.ts"],
         "@shared/validation": ["libs/shared-validation/src/index.ts"]
       }

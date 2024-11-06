@@ -9,7 +9,7 @@ export const mdUserFindEmail = async (email: string) => {
 	});
 };
 
-export const mdUserFindFirst = async cond => {
+export const mdUserFindFirst = async (cond: any) => {
 	return userModel.findFirst(cond);
 };
 

@@ -1,0 +1,12 @@
+@baseUrl = http://127.0.0.1:3333/api
+
+
+POST {{baseUrl}}/auth/sign-up
+Content-Type: application/json
+
+{
+    "email": "test@test.com",
+    "password": "test",
+    "name": "test"
+
+}

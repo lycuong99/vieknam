@@ -55,6 +55,8 @@ router.post('/auth/sign-in', async (req, res) => {
 
 router.post('/auth/sign-up', async (req, res) => {
 	try {
+		console.log(req.body);
+
 		const body = req.body as User;
 		const { error, errorArr, data } = validateRegisterUser(body);
 		if (error && errorArr) {
@@ -62,6 +64,12 @@ router.post('/auth/sign-up', async (req, res) => {
 		}
 
 		const resultData = data as User;
+
+		const foundUser = await mdUserFindEmail(body.email);
+		if (foundUser) {
+			return res.json({ status: 400, error: 'Your email is already registered' });
+		}
+
 		const hashedPassword = await hashPassword(resultData.password);
 
 		const user = await mdUserAdd({
@@ -85,6 +93,7 @@ router.post('/auth/sign-up', async (req, res) => {
 			data: user
 		});
 	} catch (error) {
+		console.error(error);
 		res.json({
 			status: 500,
 			error: error.message

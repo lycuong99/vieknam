@@ -31,7 +31,7 @@ export const signUpUserSchema = registerUserSchema
 		path: ['confirmPassword']
 	});
 
-const loginUserSchema = user.required({
+export const loginUserSchema = user.required({
 	email: true,
 	password: true
 });

@@ -1,4 +1,4 @@
-@baseUrl = http://127.0.0.1:3333/api
+@baseUrl = http://localhost:3333/api
 
 
 POST {{baseUrl}}/auth/sign-up
@@ -9,4 +9,14 @@ Content-Type: application/json
     "password": "test",
     "name": "test"
 
+}
+
+
+### sign in
+POST {{baseUrl}}/auth/sign-in
+Content-Type: application/json
+
+{
+    "email": "test@test.com",
+    "password": "tes12121212t"
 }

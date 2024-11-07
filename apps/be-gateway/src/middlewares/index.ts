@@ -6,6 +6,7 @@ const HeaderKeys = {
 	Authorization: 'Authorization',
 	RefreshToken: 'RefreshToken'
 };
+
 export async function authMiddleware(req: AuthRequest, res: Response, next: NextFunction) {
 	const headers = req.headers;
 	const authorization = headers.authorization;

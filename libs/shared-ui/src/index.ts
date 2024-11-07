@@ -2,3 +2,4 @@
 
 export * from './ui/index';
 export * from './components';
+export * from './lib/utils';

@@ -10,17 +10,17 @@ const router = Router();
 router.post('/auth/sign-in', async (req, res) => {
 	try {
 		const body = req.body as Pick<User, 'email' | 'password'>;
-
+		
 		const foundUser = await mdUserFindEmail(body.email);
 
 		if (!foundUser) {
-			return res.json({ status: 400, error: 'Your credential is invalid' });
+			return res.status(400).json({ status: 400, message: 'Your credential is invalid' });
 		}
 
-		const matchPassword = comparePassword(body.password, foundUser.password);
+		const matchPassword = await comparePassword(body.password, foundUser.password);
 
 		if (!matchPassword) {
-			return res.json({ status: 400, error: 'Your email or password is invalid' });
+			return res.status(400).json({ status: 400, message: 'Your email or password is invalid' });
 		}
 
 		const accessToken = generateAccessToken({
@@ -48,7 +48,7 @@ router.post('/auth/sign-in', async (req, res) => {
 	} catch (error) {
 		res.json({
 			status: 500,
-			error: error.message
+			message: error.message
 		});
 	}
 });
@@ -67,7 +67,7 @@ router.post('/auth/sign-up', async (req, res) => {
 
 		const foundUser = await mdUserFindEmail(body.email);
 		if (foundUser) {
-			return res.json({ status: 400, error: 'Your email is already registered' });
+			return res.status(400).json({ status: 400, message: 'Your email is already registered' });
 		}
 
 		const hashedPassword = await hashPassword(resultData.password);

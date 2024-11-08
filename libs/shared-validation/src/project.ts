@@ -15,7 +15,7 @@ const projectSchema = z
 	})
 	.partial();
 
-const quickAddProjectSchema = projectSchema.required({
+export const quickAddProjectSchema = projectSchema.required({
 	name: true
 });
 

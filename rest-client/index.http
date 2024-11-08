@@ -19,4 +19,14 @@ Content-Type: application/json
 {
     "email": "test@test.com",
     "password": "tes12121212t"
+}      
+
+
+### create organization
+POST {{baseUrl}}/auth/org
+Content-Type: application/json
+
+{
+    "name": "test",
+    "description": "test"
 }

@@ -7,11 +7,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { loginUserSchema } from '@shared/validation';
 import { z } from 'zod';
 import { Button, Form, PasswordTextfield, Textfield } from '@shared/ui';
-import Logo from '../../../components/Logo';
-import { signIn } from '../../../services/auth';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { toast } from 'sonner';
+import { signIn } from 'apps/ui-app/services/auth';
+import Logo from 'apps/ui-app/components/Logo';
 
 export default function SigninForm() {
 	const { push } = useRouter();

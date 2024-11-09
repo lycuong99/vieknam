@@ -10,7 +10,7 @@ const router = Router();
 router.post('/auth/sign-in', async (req, res) => {
 	try {
 		const body = req.body as Pick<User, 'email' | 'password'>;
-		
+
 		const foundUser = await mdUserFindEmail(body.email);
 
 		if (!foundUser) {
@@ -37,8 +37,9 @@ router.post('/auth/sign-in', async (req, res) => {
 		res.setHeader('RefreshToken', refreshToken);
 
 		res.json({
+			status: 200,
 			message: 'Login success',
-			user: {
+			data: {
 				id: foundUser.id,
 				name: foundUser.name,
 				email: foundUser.email,

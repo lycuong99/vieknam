@@ -10,8 +10,8 @@ import { Button, Form, PasswordTextfield, Textfield } from '@shared/ui';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { signIn } from 'apps/ui-app/services/auth';
 import Logo from 'apps/ui-app/components/Logo';
+import { signIn } from '@goalie/next';
 
 export default function SigninForm() {
 	const { push } = useRouter();
@@ -39,8 +39,9 @@ export default function SigninForm() {
 			} else {
 				toast.error('Something went wrong');
 			}
+		} finally {
+			setLoading(false);
 		}
-		setLoading(false);
 	}
 
 	return (

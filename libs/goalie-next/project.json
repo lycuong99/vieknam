@@ -1,0 +1,9 @@
+{
+	"name": "goalie-next",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "libs/goalie-next/src",
+	"projectType": "library",
+	"tags": [],
+	"// targets": "to see all targets run: nx show project goalie-next --web",
+	"targets": {}
+}

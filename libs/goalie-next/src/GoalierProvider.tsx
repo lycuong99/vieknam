@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, Dispatch, SetStateAction, useState } from 'react';
+import { createContext, Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { GoalieUser } from './types';
 import { getGoalieUser } from './lib/util';
 import useGoalieInProtectionMode from './useGoalieInProtectionMode';
@@ -17,7 +17,11 @@ export const GoalieContext = createContext<IGoalieContext>({
 });
 
 export const GoalieProvider = ({ children }: { children: React.ReactNode }) => {
-	const [user, setUser] = useState<GoalieUser | null>(getGoalieUser());
+	const [user, setUser] = useState<GoalieUser | null>(null);
+
+	useEffect(() => {
+		setUser(getGoalieUser());
+	}, []);
 
 	useGoalieInProtectionMode({ user });
 

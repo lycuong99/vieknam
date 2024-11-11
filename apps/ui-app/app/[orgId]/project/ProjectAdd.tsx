@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { HiOutlinePlusSm } from 'react-icons/hi';
-import { useProjectStore } from '../../store/project';
+import { useProjectStore } from '../../../store/project';
 import {
 	Button,
 	Dialog,

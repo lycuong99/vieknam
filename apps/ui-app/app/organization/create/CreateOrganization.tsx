@@ -4,10 +4,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Form, FormElements, Textfield } from '@shared/ui';
 import { quickAddProjectSchema } from '@shared/validation';
 import { createOrg } from 'apps/ui-app/services/organization';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 export default function CreateOrganization() {
+	const { push } = useRouter();
 	const form = useForm({
 		resolver: zodResolver(quickAddProjectSchema)
 	});
@@ -18,6 +20,7 @@ export default function CreateOrganization() {
 		try {
 			const res = await createOrg(data);
 			toast.success('Successful');
+			push('/');
 		} catch (error) {
 			toast.error('Something went wrong');
 		}

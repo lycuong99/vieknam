@@ -14,12 +14,14 @@ export async function signIn(email: string, password: string) {
 		}
 
 		const accessToken = headers.authorization;
-		const refreshToken = headers.refreshToken;
+		const refreshToken = headers.refreshtoken;
 
 		saveGoalieToken(accessToken);
 		saveGoalieRefreshToken(refreshToken);
 
 		const decoded = decode(refreshToken) as { exp: number };
+
+		console.log(decoded, refreshToken);
 
 		saveGoalieUser({
 			email: user.email,

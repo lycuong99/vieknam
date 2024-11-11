@@ -1,30 +1,32 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { GoalieUser } from '../types';
-import { clearAllGoalieTokens, getDecodedGoalieRefreshToken } from './util';
+import { GoalieUser } from './types';
+import { clearAllGoalieTokens, isSessionExpired, isSessionStillAlive } from './lib/util';
 
 const signInPage = '/sign-in';
-const publicsPages = [signInPage, '/sign-up'];
+const authPage = [signInPage, '/sign-up'];
 
 export default function useGoalieInProtectionMode({ user }: { user: GoalieUser | null }) {
 	const pathname = usePathname();
 	const { push } = useRouter();
 
-	useEffect(
-		function onAuth() {
-			if (publicsPages.includes(pathname)) return;
+	function onAuth() {
+		// console.log('useGoalieInProtectionMode', pathname);
+		const isInSideAuthPage = authPage.includes(pathname);
 
-            if (!user) {
-				push(signInPage);
-                return;
-			}
+		if (isSessionExpired() && !isInSideAuthPage) {
+			console.log('session expired');
+			clearAllGoalieTokens();
 
-            const decoded = getDecodedGoalieRefreshToken();
-            if(decoded.exp < Date.now() / 1000 + 5) {
-                clearAllGoalieTokens();
-                push(signInPage);
-            }
-		},
-		[pathname, user, push]
-	);
+			return push(signInPage);
+		}
+
+		if (isSessionStillAlive() && isInSideAuthPage) {
+			// return push('/organization');
+		}
+	}
+
+	useEffect(() => {
+		user && onAuth();
+	}, [pathname, user]);
 }

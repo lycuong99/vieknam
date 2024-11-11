@@ -1,8 +1,8 @@
-'use client'
+'use client';
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BE_GATEWAY || '/api'
+	baseURL: process.env.NEXT_PUBLIC_BE_GATEWAY + '/api'
 });
 
 export const req = instance;

@@ -25,7 +25,8 @@
 			"@shared/ui/server": ["libs/shared-ui/src/server.ts"],
 			"@shared/validation": ["libs/shared-validation/src/index.ts"],
 			"@goalie/next": ["libs/goalie-next/src/index.ts"],
-			"@vieknam/goalie-next/server": ["libs/goalie-next/src/server.ts"]
+			"@vieknam/goalie-next/server": ["libs/goalie-next/src/server.ts"],
+			"@be-gateway/*": ["apps/be-gateway/src/*"]
 		}
 	},
 	"exclude": ["node_modules", "tmp"]

@@ -18,12 +18,23 @@ app.use(
 app.use(express.json());
 
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
-
 app.get('/api', (req, res) => {
 	res.send({ message: 'Welcome to be-gateway!' });
 });
 
 app.use('/api', router);
+
+// handle error
+app.use((error, req, res, next) => {
+	console.error(error);
+	const statusCode = error.status || 500;
+
+	return res.status(statusCode).json({
+		status: 'error',
+		code: statusCode,
+		message: error.message || 'Something went wrong!'
+	});
+});
 
 const port = process.env.PORT || 3333;
 const server = app.listen(port, () => {

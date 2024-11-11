@@ -67,6 +67,11 @@ model Organization {
   cover  String?
   avatar String?
   desc   String?
+
+  createdAt           DateTime?              @default(now())
+  updatedAt           DateTime?             
+  createdBy           String?
+  updatedBy           String?
 }
 
 model OrganizationMembers {
@@ -75,6 +80,12 @@ model OrganizationMembers {
   users  User             @relation(fields: [uid], references: [id])
   status InvitationStatus
   role   OrganizationRole
+  organizationId String           @db.ObjectId
+  
+  createdAt           DateTime?              @default(now())
+  updatedAt           DateTime?             
+  createdBy           String?
+  updatedBy           String?
 }
 
 model Task {

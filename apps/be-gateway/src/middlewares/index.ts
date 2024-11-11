@@ -28,6 +28,7 @@ export async function authMiddleware(req: AuthRequest, res: Response, next: Next
 		}
 
 		const validRefeshToken = await verifyRefreshToken(refreshToken);
+
 		if (validRefeshToken) {
 			const user = validToken as JWTPayload;
 

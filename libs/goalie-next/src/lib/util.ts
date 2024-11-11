@@ -16,6 +16,7 @@ export const saveGoalieUser = (user: GoalieUser) => {
 export const getGoalieUser = () => {
 	try {
 		const user = localStorage.getItem(GOALIE_USER);
+		
 		return user ? JSON.parse(user) : null;
 	} catch (error) {
 		console.error('Error getting user from local storage:', error);
@@ -74,9 +75,14 @@ export const clearAllGoalieTokens = () => {
 	try {
 		localStorage.removeItem(GOALIE_JWT_TOKEN);
 		localStorage.removeItem(GOALIE_REFRESH_TOKEN);
-		// localStorage.removeItem(GOALIE_USER);
-		// localStorage.removeItem(GOALIE_ORG);
 	} catch (error) {
 		console.error('Error clearing tokens from local storage:', error);
 	}
 };
+
+export const isSessionExpired = () => {
+	const decoded = getDecodedGoalieRefreshToken();
+	return decoded.exp < Date.now() / 1000;
+};
+
+export const isSessionStillAlive = () => !isSessionExpired();

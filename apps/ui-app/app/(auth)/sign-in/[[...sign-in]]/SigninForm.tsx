@@ -32,6 +32,7 @@ export default function SigninForm() {
 			const res = await signIn(email, password);
 			push('/');
 		} catch (error) {
+			console.log(error);
 			if (axios.isAxiosError(error)) {
 				if (error.response?.status === 400) {
 					toast.error(error.response.data.message);

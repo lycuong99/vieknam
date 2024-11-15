@@ -5,34 +5,38 @@ import { GoalieUser } from '../types';
 import { decode } from 'jsonwebtoken';
 
 export async function signIn(email: string, password: string) {
-	return httpPost('/auth/sign-in', { email, password }).then(res => {
-		const { data, headers } = res;
-		const user = data.data as GoalieUser;
+	return httpPost('/auth/sign-in', { email, password })
+		.then(res => {
+			const { data, headers } = res;
+			const user = data.data as GoalieUser;
 
-		if (data.status !== 200) {
-			return Promise.reject('INVALID_INFORMATION');
-		}
+			if (data.status !== 200) {
+				return Promise.reject('INVALID_INFORMATION');
+			}
 
-		const accessToken = headers.authorization;
-		const refreshToken = headers.refreshtoken;
+			const accessToken = headers.authorization;
+			const refreshToken = headers.refreshtoken;
 
-		saveGoalieToken(accessToken);
-		saveGoalieRefreshToken(refreshToken);
+			saveGoalieToken(accessToken);
+			saveGoalieRefreshToken(refreshToken);
 
-		const decoded = decode(refreshToken) as { exp: number };
+			const decoded = decode(refreshToken) as { exp: number };
 
-		console.log(decoded, refreshToken);
+			console.log(decoded, refreshToken);
 
-		saveGoalieUser({
-			email: user.email,
-			id: user.id,
-			name: user.name,
-			photo: user.photo,
-			exp: decoded.exp
+			saveGoalieUser({
+				email: user.email,
+				id: user.id,
+				name: user.name,
+				photo: user.photo,
+				exp: decoded.exp
+			});
+
+			return Promise.resolve(user);
+		})
+		.catch(err => {
+			return Promise.reject(err);
 		});
-
-		return Promise.resolve(user);
-	});
 }
 
 export function signUp(data: Partial<User>) {

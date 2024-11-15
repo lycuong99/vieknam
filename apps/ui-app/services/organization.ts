@@ -6,3 +6,4 @@ export const createOrg = (data: Partial<Organization>) => {
 };
 
 export const getOrg = () => httpGet('/org');
+

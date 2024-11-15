@@ -16,6 +16,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					<RootLayoutComp>{children}</RootLayoutComp>
 				</GoalieProvider>
 			</body>
-		</html>
+		</html> 
 	);
 }

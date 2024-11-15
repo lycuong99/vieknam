@@ -30,15 +30,17 @@ instance.interceptors.response.use(
 		if (authorization && refreshToken) {
 			saveGoalieRefreshToken(refreshToken);
 			saveGoalieToken(authorization);
-			
 		}
 
 		return response;
 	},
 	error => {
 		const { response } = error;
-		if (response?.status === 401) {
+		if (error.code === 'ERR_NETWORK') {
+			toast.error(error.message);
+		} else if (response?.status === 401) {
 			toast.error('Your session has expired. Please login again.');
+			window.location.href = '/sign-in';
 		}
 		return Promise.reject(error);
 	}

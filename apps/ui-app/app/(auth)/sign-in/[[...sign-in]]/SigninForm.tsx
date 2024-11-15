@@ -36,8 +36,9 @@ export default function SigninForm() {
 			if (axios.isAxiosError(error)) {
 				if (error.response?.status === 400) {
 					toast.error(error.response.data.message);
+					return;
 				}
-			} else {
+			}else {
 				toast.error('Something went wrong');
 			}
 		} finally {

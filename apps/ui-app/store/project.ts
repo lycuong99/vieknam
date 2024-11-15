@@ -17,6 +17,13 @@ export const useProjectStore = create<ProjectState>(set => ({
 				state.projects.push(project);
 			})
 		),
+	addAddProject: (projects: Project[]) => {
+		set(
+			produce((state: ProjectState) => {
+				state.projects = projects;
+			})
+		);
+	},
 	selectProject: (id: string) =>
 		set(
 			produce((state: ProjectState) => {

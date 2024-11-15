@@ -10,7 +10,7 @@ import {
 	SidebarProvider,
 	SidebarTrigger
 } from '@shared/ui';
-import ProjectSidebar from './ProjectSidebar';
+import ProjectSidebar from './AppSidebar';
 import { Separator } from '@shadcn-in-nx/ui/separator';
 
 export default function ProjectLayout({ children }: { children: React.ReactNode }) {
@@ -36,9 +36,7 @@ export default function ProjectLayout({ children }: { children: React.ReactNode 
 							</Breadcrumb>
 						</div>
 					</header>
-					<div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-						{children}
-					</div>
+					<div className="flex flex-1 flex-col gap-4 p-4 pt-0">{children}</div>
 				</SidebarInset>
 			</SidebarProvider>
 		</>

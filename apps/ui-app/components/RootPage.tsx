@@ -8,6 +8,7 @@ import { getOrg } from 'apps/ui-app/services/organization';
 
 export default function RootPage() {
 	const { push } = useRouter();
+
 	const [orgs, setOrgs] = useState<Organization[]>([]);
 	useEffect(() => {
 		getOrg().then(res => {
@@ -16,10 +17,10 @@ export default function RootPage() {
 				return;
 			}
 
-			// if (!data || !data.length) {
-			// 	push('/organization/create');
-			// 	return;
-			// }
+			if (!data || !data.length) {
+				push('/organization/create');
+				return;
+			}
 
 			setOrgs(data);
 		});

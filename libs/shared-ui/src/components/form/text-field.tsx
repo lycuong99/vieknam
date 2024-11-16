@@ -34,7 +34,7 @@ export function Textfield({
 					<FormControl>
 						<Input className={className} placeholder={placeholder} type={type} {...field} readOnly={readOnly} />
 					</FormControl>
-					<FormDescription>{description}</FormDescription>
+					{description && <FormDescription>{description}</FormDescription>}
 					<FormMessage />
 				</FormItem>
 			)}

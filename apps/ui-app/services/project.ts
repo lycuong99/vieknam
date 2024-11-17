@@ -4,8 +4,9 @@ import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/r
 import { MutationConfig, QueryConfig } from './react-query';
 
 type IProjectAdd = Pick<Project, 'name' | 'desc' | 'organizationId'>;
+
 export const createProject = (data: IProjectAdd) => {
-	return httpPost('/project', data);
+	return httpPost(`${data.organizationId}/project`, data);
 };
 
 export const getProjects = ({ orgId }: { orgId: string }) => {
@@ -35,7 +36,7 @@ type UseCreateProjectOptions = {
 	mutationConfig?: MutationConfig<typeof createProject>;
 };
 
-export const useCreateProject = ({ mutationConfig }: UseCreateProjectOptions) => {
+export const useCreateProject = ({ mutationConfig }: UseCreateProjectOptions = {}) => {
 	const queryClient = useQueryClient();
 
 	const { onSuccess, ...restConfig } = mutationConfig ?? {};

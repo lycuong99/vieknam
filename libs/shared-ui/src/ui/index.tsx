@@ -9,3 +9,5 @@ export * from './input';
 export * from './popover';
 export * from './scroll-area';
 export * from './tabs';
+export * from './alert';
+

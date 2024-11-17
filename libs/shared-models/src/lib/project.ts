@@ -16,3 +16,11 @@ export const mdProjectGetAllByIds = async (ids: string[]) => {
 		}
 	});
 };
+
+export const mdProjectGetByOrgId = async (orgId: string) => {
+	return projectModel.findMany({
+		where: {
+			organizationId: orgId
+		}
+	});
+};

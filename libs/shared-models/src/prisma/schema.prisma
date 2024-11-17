@@ -137,7 +137,7 @@ model Project {
   desc           String?
   cover          String?
   iconn          String?
-  organizationId String?
+  organizationId String
 
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt

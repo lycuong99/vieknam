@@ -16,17 +16,38 @@ Content-Type: application/json
 POST {{baseUrl}}/auth/sign-in
 Content-Type: application/json
 
+
 {
-    "email": "test@test.com",
-    "password": "tes12121212t"
+    "email": "user2@gmail.com",
+    "password": "123456"
 }      
 
 
 ### create organization
-POST {{baseUrl}}/auth/org
+POST {{baseUrl}}/org
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MmM2MWUyMDg3NzJhYjBjZDkxYjVhNSIsImVtYWlsIjoidXNlcjJAZ21haWwuY29tIiwibmFtZSI6IlBlZHJvIER1YXJ0ZSIsInBob3RvIjpudWxsLCJpYXQiOjE3MzE4MjY4MTYsImV4cCI6MTczMTgzNzYxNn0.LJgme44gXjKzr0j8G9NOjWR0OMt-9L_jl0N5hLOVC7I
+RefreshToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIyQGdtYWlsLmNvbSIsImlhdCI6MTczMTgyNjgxNiwiZXhwIjoxNzMxOTEzMjE2fQ.vL3Rx1z7UAERch7NmW9nSFe-FPM9cI3APTvcnJjIado
 Content-Type: application/json
 
 {
     "name": "test",
+    "description": "test"
+}
+
+### get project
+GET {{baseUrl}}/673994c927fe4984746e20bb/project
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MmM2MWUyMDg3NzJhYjBjZDkxYjVhNSIsImVtYWlsIjoidXNlcjJAZ21haWwuY29tIiwibmFtZSI6IlBlZHJvIER1YXJ0ZSIsInBob3RvIjpudWxsLCJpYXQiOjE3MzE4MjY4MTYsImV4cCI6MTczMTgzNzYxNn0.LJgme44gXjKzr0j8G9NOjWR0OMt-9L_jl0N5hLOVC7I
+RefreshToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIyQGdtYWlsLmNvbSIsImlhdCI6MTczMTgyNjgxNiwiZXhwIjoxNzMxOTEzMjE2fQ.vL3Rx1z7UAERch7NmW9nSFe-FPM9cI3APTvcnJjIado
+Content-Type: application/json
+
+
+### create project
+POST {{baseUrl}}/673994c927fe4984746e20bb/project
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MmM2MWUyMDg3NzJhYjBjZDkxYjVhNSIsImVtYWlsIjoidXNlcjJAZ21haWwuY29tIiwibmFtZSI6IlBlZHJvIER1YXJ0ZSIsInBob3RvIjpudWxsLCJpYXQiOjE3MzE4MjY4MTYsImV4cCI6MTczMTgzNzYxNn0.LJgme44gXjKzr0j8G9NOjWR0OMt-9L_jl0N5hLOVC7I
+RefreshToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIyQGdtYWlsLmNvbSIsImlhdCI6MTczMTgyNjgxNiwiZXhwIjoxNzMxOTEzMjE2fQ.vL3Rx1z7UAERch7NmW9nSFe-FPM9cI3APTvcnJjIado
+Content-Type: application/json
+
+{
+    "name": "test-project",
     "description": "test"
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactElement, useState } from 'react';
+import { useState } from 'react';
 import { HiOutlinePlusSm } from 'react-icons/hi';
 import { useProjectStore } from '../../store/project';
 import {
@@ -47,14 +47,8 @@ export default function ProjectAdd({ children }: ProjectAddProps) {
 					<Form {...form}>
 						<form className="flex flex-col gap-4">
 							<IconPicker modal />
-							{/* <div className='space-y-2'>
 
-								<Button type='button' size={'icon'} variant={'outline'} className=''>
-									<HiOutlinePlusSm />
-								</Button>
-								</div> */}
 							<div className="flex gap-2 items-end">
-								
 								<FormElements.Textfield label="Project name" name="name" placeholder="e.g., Website Redesign" required />
 							</div>
 							<FormElements.Textarea

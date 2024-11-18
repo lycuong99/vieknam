@@ -12,6 +12,7 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import Logo from 'apps/ui-app/components/Logo';
 import { signIn } from '@goalie/next';
+import { Routes } from 'apps/ui-app/routes';
 
 export default function SigninForm() {
 	const { push } = useRouter();
@@ -30,7 +31,7 @@ export default function SigninForm() {
 		const { email, password } = data;
 		try {
 			const res = await signIn(email, password);
-			push('/');
+			push(Routes.ORGANIZATION.BASE);
 		} catch (error) {
 			console.log(error);
 			if (axios.isAxiosError(error)) {
@@ -38,7 +39,7 @@ export default function SigninForm() {
 					toast.error(error.response.data.message);
 					return;
 				}
-			}else {
+			} else {
 				toast.error('Something went wrong');
 			}
 		} finally {

@@ -16,3 +16,11 @@ export const mdMemberAdd = async (data: Omit<Members, 'id'>) => {
 	});
 };
 
+export const mdMemberBelongProject = async (uid: string, projectId: string) => {
+	return memberModel.findFirst({
+		where: {
+			uid: uid,
+			projectId: projectId
+		}
+	});
+};

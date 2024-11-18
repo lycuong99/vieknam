@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { Router } from 'express';
-import { mdMemberAdd, mdProjectAdd, mdProjectGetByOrgId } from '@shared/models';
+import { mdMemberAdd, mdMemberGetProject, mdProjectAdd, mdProjectGetAllByIds, mdProjectGetByOrgId } from '@shared/models';
 import { MemberRole, Project } from '@prisma/client';
 import { AuthRequest } from '@be-gateway/types';
 import { asyncHandler } from '@be-gateway/lib/async-handle';
@@ -10,13 +10,33 @@ const router = Router();
 
 router.use([authMiddleware]);
 
-router.get('/:organizationId/project', async (req, res) => {
-	const result = await mdProjectGetByOrgId(req.params.organizationId);
-	res.json({
-		status: 200,
-		data: result
-	});
-});
+router.get(
+	'/:organizationId/project',
+	asyncHandler(async (req: AuthRequest, res) => {
+		const userId = req.authen.id;
+
+		const invitedProjects = await mdMemberGetProject(userId);
+
+		if (invitedProjects.length == 0) {
+			return res.json({
+				status: 200,
+				message: "You're not invited to no projects",
+				data: []
+			});
+		}
+
+		const projectIds = invitedProjects.map(item => item.projectId);
+
+		const projects = await mdProjectGetAllByIds(projectIds, {
+			orgId: req.params.organizationId
+		});
+
+		res.json({
+			status: 200,
+			data: projects
+		});
+	})
+);
 
 router.post(
 	'/:organizationId/project',

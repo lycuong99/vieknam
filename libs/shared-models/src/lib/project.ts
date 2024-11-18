@@ -7,12 +7,30 @@ export const mdProjectAdd = async (data: Omit<Project, 'id'>) => {
 	});
 };
 
-export const mdProjectGetAllByIds = async (ids: string[]) => {
+export const mdProjectGetAllByIds = async (
+	ids: string[],
+	conditions?: {
+		orgId?: string;
+	}
+) => {
+	const { orgId } = conditions || {};
+	const where: {
+		[key: string]: any;
+	} = {};
+
+	if (orgId) {
+		where['organizationId'] = orgId;
+	}
+
 	return projectModel.findMany({
 		where: {
 			id: {
 				in: ids
-			}
+			},
+			...where
+		},
+		orderBy: {
+			updatedAt: 'desc'
 		}
 	});
 };

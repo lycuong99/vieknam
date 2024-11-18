@@ -1,4 +1,4 @@
-import { getGoalieRefreshToken, getGoalieToken, saveGoalieRefreshToken, saveGoalieToken } from '@goalie/next';
+import { clearAllGoalieTokens, getGoalieRefreshToken, getGoalieToken, saveGoalieRefreshToken, saveGoalieToken } from '@goalie/next';
 import axios from 'axios';
 import { toast } from 'sonner';
 
@@ -40,6 +40,7 @@ instance.interceptors.response.use(
 			toast.error(error.message);
 		} else if (response?.status === 401) {
 			toast.error('Your session has expired. Please login again.');
+			clearAllGoalieTokens();
 			window.location.href = '/sign-in';
 		}
 		return Promise.reject(error);

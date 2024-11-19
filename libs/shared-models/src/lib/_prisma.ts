@@ -7,3 +7,5 @@ export const memberModel = prisma.members;
 export const userModel = prisma.user;
 export const orgModel = prisma.organization;
 export const orgMemberModel = prisma.organizationMembers;
+
+export const taskModel = prisma.task;

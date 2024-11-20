@@ -14,7 +14,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 	Form,
-	FormElements
+	FormControls
 } from '@shared/ui';
 import { useForm } from 'react-hook-form';
 import IconPicker from 'apps/ui-app/components/IconPicker';
@@ -101,9 +101,9 @@ export default function ProjectAdd({ children }: ProjectAddProps) {
 							<IconPicker modal />
 
 							<div className="flex gap-2 items-end">
-								<FormElements.Textfield label="Project name" name="name" placeholder="e.g., Website Redesign" required />
+								<FormControls.Textfield label="Project name" name="name" placeholder="e.g., Website Redesign" required />
 							</div>
-							<FormElements.Textarea
+							<FormControls.Textarea
 								label="Desciption"
 								name="desc"
 								placeholder="e.g., Redesign the company website to improve user experience and SEO."

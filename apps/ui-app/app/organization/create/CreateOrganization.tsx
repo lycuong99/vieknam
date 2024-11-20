@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, Form, FormElements, Textfield } from '@shared/ui';
+import { Button, Form, FormControls, Textfield } from '@shared/ui';
 import { quickAddProjectSchema } from '@shared/validation';
 import { createOrg } from 'apps/ui-app/services/organization';
 import { useRouter } from 'next/navigation';
@@ -54,7 +54,7 @@ export default function CreateOrganization() {
 								<div className="mt-4 flex flex-col gap-2">
 									<Textfield name="name" label="Organization Name" placeholder="e.g., Acme Corp" required />
 									{/* <Textfield name="desc" label="Description" placeholder="Description" /> */}
-									<FormElements.Textarea
+									<FormControls.Textarea
 										name="desc"
 										label="Description"
 										placeholder="Briefly describe the organization’s mission or purpose."

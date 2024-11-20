@@ -2,7 +2,6 @@
 
 import { Organization } from '@prisma/client';
 import {
-	SidebarHeader,
 	SidebarMenuButton,
 	SidebarMenuItem,
 	DropdownMenuTrigger,
@@ -10,7 +9,8 @@ import {
 	DropdownMenuItem,
 	DropdownMenu,
 	DropdownMenuLabel,
-	DropdownMenuSeparator
+	DropdownMenuSeparator,
+	SidebarMenu
 } from '@shared/ui';
 import { getOrg } from 'apps/ui-app/services/organization';
 import { ChevronsUpDown, GalleryVerticalEnd, Plus } from 'lucide-react';
@@ -47,7 +47,7 @@ export default function OrganizationSwitcher() {
 	}, []);
 
 	return (
-		<SidebarHeader>
+		<SidebarMenu>
 			<SidebarMenuItem>
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
@@ -87,6 +87,6 @@ export default function OrganizationSwitcher() {
 					</DropdownMenuContent>
 				</DropdownMenu>
 			</SidebarMenuItem>
-		</SidebarHeader>
+		</SidebarMenu>
 	);
 }

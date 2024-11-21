@@ -19,7 +19,6 @@ import { Shuffle } from 'lucide-react';
 import data, { Emoji, EmojiMartData } from '@emoji-mart/data';
 import { init, SearchIndex } from 'emoji-mart';
 init({ data });
-console.log(data);
 const emojiData = data as EmojiMartData;
 
 export const IconRenderer = ({

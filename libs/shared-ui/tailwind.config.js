@@ -17,6 +17,20 @@ module.exports = {
 				'2xl': '1400px'
 			}
 		},
+		typography: {
+			default: {
+				css: {
+					code: {
+						'&::before': {
+							display: 'none'
+						},
+						'&::after': {
+							display: 'none'
+						}
+					}
+				}
+			}
+		},
 		extend: {
 			colors: {
 				border: 'hsl(var(--border))',

@@ -1,4 +1,5 @@
 import {
+	BlockEditor,
 	Button,
 	Dialog,
 	DialogContent,
@@ -13,9 +14,15 @@ import {
 } from '@shared/ui';
 import { Plus } from 'lucide-react';
 import { useForm } from 'react-hook-form';
+import { TaskStatus } from './TaskStatus';
+import { TaskPriority } from '@prisma/client';
+import { TaskPrioritySelect } from './TaskPrioritySelect';
 
 export default function TaskCreate() {
 	const form = useForm();
+	const onSubmit = (data: unknown) => {
+		console.log(data);
+	};
 	return (
 		<Dialog>
 			<DialogTrigger asChild>
@@ -28,18 +35,19 @@ export default function TaskCreate() {
 					<DialogTitle>Add Task</DialogTitle>
 				</DialogHeader>
 				<Form {...form}>
-					<form>
+					<form onSubmit={form.handleSubmit(onSubmit)}>
 						<FormControls.Textfield
 							className="border-none  focus-visible:ring-0 shadow-none placeholder:font-semibold font-semibold text-xl px-0"
 							name="title"
 							placeholder="Task Name"
 						/>
-						<FormControls.Textarea
+						{/* <FormControls.Textarea
 							className="border-none  focus-visible:ring-0 shadow-none placeholder:font-normal text-lg px-0"
 							name="desc"
 							placeholder="Write something"
-						/>
-						<RickTextEditor />
+						/> */}
+						<BlockEditor placeholder="Write something" />
+						<div className='flex gap-1'><TaskStatus /> <TaskPrioritySelect/></div>
 					</form>
 				</Form>
 				<DialogFooter>

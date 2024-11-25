@@ -1,7 +1,19 @@
 import { Editor } from '@tiptap/core';
 import { BubbleMenu } from '@tiptap/react';
-import { Button, cn, Separator, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@shared/ui';
-import { Bold, Code, Italic, Strikethrough, Underline } from 'lucide-react';
+import {
+	Button,
+	cn,
+	Input,
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+	Separator,
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger
+} from '@shared/ui';
+import { Bold, Code, Italic, LinkIcon, Strikethrough, Underline } from 'lucide-react';
 import { ToggleGroup, ToggleGroupItem } from '@shadcn-in-nx/ui/toggle-group';
 import { ButtonHTMLAttributes } from 'react';
 
@@ -45,6 +57,7 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
 	const isBold = editor.isActive('bold');
 	const isUnderline = editor.isActive('underline');
 	const isInlineCode = editor.isActive('code');
+	const isLink = editor.isActive('link');
 
 	const onItalic = () => editor.chain().focus().toggleItalic().run();
 	const onBold = () => editor.chain().focus().toggleBold().run();
@@ -52,10 +65,11 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
 	const onStrike = () => editor.chain().focus().toggleStrike().run();
 
 	const onCode = () => editor.chain().focus().toggleCode().run();
+	const onLink = (url: string) => editor.chain().focus().setLink({ href: url, target: '_blank' }).run();
 	return (
 		<BubbleMenu
 			editor={editor}
-			pluginKey={'text'}
+			pluginKey={'text-menu'}
 			tippyOptions={{
 				placement: 'top-start'
 			}}>
@@ -74,10 +88,30 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
 				</MenuButton>
 
 				<Separator orientation="vertical" className="my-4" />
-					
+
 				<MenuButton active={isInlineCode} tooltip="Italic" onClick={onCode}>
 					<Code className="w-4 h-4" />
 				</MenuButton>
+
+				<Popover>
+					<PopoverTrigger>
+						<MenuButton active={isLink} tooltip="Set Link">
+							<LinkIcon className="w-4 h-4" />
+						</MenuButton>
+					</PopoverTrigger>
+					<PopoverContent className="p-1">
+						<Input
+							placeholder="Enter link"
+							onKeyDown={e => {
+								if (e.key === 'Enter') {
+									onLink(e.currentTarget.value);
+									e.currentTarget.value = '';
+								}
+							}}
+						/>
+						<Button onClick={() => onLink('https://linear.app/linear-1999/projects/all')}>Set Link</Button>
+					</PopoverContent>
+				</Popover>
 			</div>
 		</BubbleMenu>
 	);

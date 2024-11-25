@@ -1,16 +1,11 @@
 import { EditorContent, useEditor } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
 // import Heading from '@tiptap/extension-heading';
 // import BulletList from '@tiptap/extension-bullet-list';
-import ListItem from '@tiptap/extension-list-item';
 import Placeholder from '@tiptap/extension-placeholder';
-import { useState } from 'react';
-import Document from '@tiptap/extension-document';
-import { CodeBlock } from './extensions/CodeBlock';
 import { TextMenu } from './menus/TextMenu';
-import Underline from '@tiptap/extension-underline';
-import Code from '@tiptap/extension-code';
 import { cn } from '@shadcn-in-nx/utils';
+import { ExtensionKit } from 'libs/shared-ui/src/components/editor/extensions';
+import { LinkMenu } from 'libs/shared-ui/src/components/editor/menus/LinkMenu';
 
 interface BlockEditorProps {
 	placeholder?: string;
@@ -19,16 +14,7 @@ interface BlockEditorProps {
 const BlockEditor = ({ placeholder, className }: BlockEditorProps) => {
 	const editor = useEditor({
 		extensions: [
-			StarterKit.configure({
-				codeBlock: false
-			}),
-			Code,
-			CodeBlock,
-			// Heading,
-			// BulletList,
-			ListItem,
-			Document,
-			Underline,
+			...ExtensionKit,
 			Placeholder.configure({
 				// Use a placeholder:
 				placeholder: placeholder
@@ -54,6 +40,7 @@ const BlockEditor = ({ placeholder, className }: BlockEditorProps) => {
 		<div className={cn('py-2 min-h-[80px]', className)}>
 			<EditorContent editor={editor} />
 			{editor && <TextMenu editor={editor} />}
+			{editor && <LinkMenu editor={editor} />}
 		</div>
 	);
 };

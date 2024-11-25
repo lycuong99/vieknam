@@ -18,7 +18,7 @@ export default function useGoalieInProtectionMode({ user }: { user: GoalieUser |
 			console.log('session expired');
 			clearAllGoalieTokens();
 
-			return push(signInPage);
+			// return push(signInPage);
 		}
 
 		if (isSessionStillAlive() && isInSideAuthPage) {

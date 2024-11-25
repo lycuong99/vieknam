@@ -31,6 +31,7 @@
     "@tiptap/extension-code": "^2.10.2",
     "@tiptap/extension-code-block-lowlight": "^2.10.2",
     "@tiptap/extension-document": "^2.10.2",
+    "@tiptap/extension-link": "^2.10.2",
     "@tiptap/extension-placeholder": "^2.10.0",
     "@tiptap/extension-underline": "^2.10.2",
     "@tiptap/pm": "^2.10.0",

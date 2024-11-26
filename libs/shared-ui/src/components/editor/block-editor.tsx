@@ -14,7 +14,7 @@ interface BlockEditorProps {
 const BlockEditor = ({ placeholder, className }: BlockEditorProps) => {
 	const editor = useEditor({
 		extensions: [
-			...ExtensionKit,
+			...ExtensionKit(),
 			Placeholder.configure({
 				// Use a placeholder:
 				placeholder: placeholder
@@ -33,7 +33,7 @@ const BlockEditor = ({ placeholder, className }: BlockEditorProps) => {
 			attributes: {
 				class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl focus:outline-none'
 			}
-		}
+		},
 	});
 
 	return (

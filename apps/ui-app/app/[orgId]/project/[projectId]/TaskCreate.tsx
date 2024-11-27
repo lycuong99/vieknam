@@ -26,7 +26,7 @@ export default function TaskCreate() {
 	return (
 		<Dialog>
 			<DialogTrigger asChild>
-				<Button size={'xs'} leftSection={<Plus className="h-5 w-5" />}>
+				<Button size={'sm'} leftSection={<Plus className="h-5 w-5" />}>
 					Add Task
 				</Button>
 			</DialogTrigger>

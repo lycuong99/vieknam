@@ -1,12 +1,13 @@
 'use client';
 import { Editor } from '@tiptap/core';
-import { BubbleMenu } from '@tiptap/react';
+import { BubbleMenu, useEditorState } from '@tiptap/react';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useFloating, autoUpdate, offset, flip } from '@floating-ui/react-dom';
-import { Button } from '@shared/ui';
+import { Button, Card, Input } from '@shared/ui';
 import { Copy, Globe } from 'lucide-react';
 import { toast } from 'sonner';
 import { ControlledBubbleMenu } from 'libs/shared-ui/src/components/editor/menus/LinkMenu/ControlledBubleMenu';
+import EditLink from './EditLink';
 
 type LinkMenuProps = {
 	editor: Editor;
@@ -16,8 +17,11 @@ const LIVE_TIME = 300;
 
 export const LinkMenu = ({ editor }: LinkMenuProps) => {
 	const [mounted, setMounted] = useState(false);
-	const [linkHover, setLinkHover] = useState<null | HTMLElement>(null);
+	const [linkHover, setLinkHover] = useState<null | HTMLAnchorElement>(null);
 	const bubbleHoverRef = useRef<boolean>(false);
+
+	const [openViewLink, setOpenViewLink] = useState(false);
+	const [openEditLink, setOpenEditLink] = useState(false);
 
 	const timeOutSetHoverRef = useRef<NodeJS.Timeout | null>(null);
 	const timeOutRef = useRef<NodeJS.Timeout | null>(null);
@@ -25,19 +29,11 @@ export const LinkMenu = ({ editor }: LinkMenuProps) => {
 	useEffect(() => {
 		setMounted(true);
 	}, []);
-	const shoudlShow = () => {
-		console.log('linkHover', linkHover);
-		return !!linkHover;
-	};
-
-	const shouldShowEditor = () => {
-		return editor.isActive('link');
-	};
 
 	const { floatingStyles, refs } = useFloating({
 		strategy: 'fixed',
 		whileElementsMounted: autoUpdate,
-		placement: 'top',
+		placement: 'bottom',
 		middleware: [
 			offset({ mainAxis: 8 }),
 			flip({
@@ -62,6 +58,7 @@ export const LinkMenu = ({ editor }: LinkMenuProps) => {
 
 				timeOutSetHoverRef.current = setTimeout(() => {
 					setLinkHover(isLinkElement);
+					setOpenViewLink(true);
 				}, LIVE_TIME);
 			}
 		};
@@ -80,8 +77,10 @@ export const LinkMenu = ({ editor }: LinkMenuProps) => {
 					clearTimeout(timeOutRef.current);
 					timeOutRef.current = null;
 				}
+
 				timeOutRef.current = setTimeout(() => {
 					setLinkHover(null);
+					setOpenViewLink(false);
 				}, LIVE_TIME);
 			}
 		};
@@ -102,6 +101,7 @@ export const LinkMenu = ({ editor }: LinkMenuProps) => {
 			navigator.clipboard.writeText(link);
 		}
 		setLinkHover(null);
+		setOpenViewLink(false);
 		toast('Copied Link to clipboard', {
 			position: 'bottom-center'
 		});
@@ -114,10 +114,10 @@ export const LinkMenu = ({ editor }: LinkMenuProps) => {
 				const endPos = startPos + linkHover.textContent.length;
 				editor.commands.setTextSelection({ from: startPos, to: endPos });
 				editor.commands.focus();
+				setOpenEditLink(true);
 			}
+			setOpenViewLink(false);
 		}
-
-		setLinkHover(null);
 	};
 
 	useLayoutEffect(() => {
@@ -126,24 +126,80 @@ export const LinkMenu = ({ editor }: LinkMenuProps) => {
 		}
 	}, [linkHover, refs]);
 
+	function handleEditLink(link: string) {
+		const { from, to } = editor.state.selection;
+		const linkAttrs = editor.getAttributes('link');
+
+		if (linkAttrs.href) {
+			// Tạo một transaction để cập nhật href mà không làm mất focus
+			const tr = editor.state.tr;
+
+			// Xoá mark link cũ
+			tr.removeMark(from, to, editor.schema.marks.link);
+
+			// Thêm lại mark link với href mới
+			tr.addMark(from, to, editor.schema.marks.link.create({ href: link }));
+
+			// Dispatch transaction để áp dụng thay đổi
+			editor.view.dispatch(tr);
+		}
+	}
+
+	function handleEditLinkTitle(linkContent: string) {
+		const linkAttrs = editor.getAttributes('link');
+		const { from, to } = editor.state.selection;
+		const tr = editor.state.tr;
+
+		tr.removeMark(from, to, editor.schema.marks.link); // Xoá link cũ
+		tr.insertText(linkContent, from, to); // Thay thế nội dung
+		tr.addMark(
+			from,
+			from + linkContent.length,
+			editor.schema.marks.link.create(linkAttrs) // Gắn lại mark link
+		);
+		editor.view.dispatch(tr); // Cập nhật editor với transaction
+
+		// editor
+		// 	.chain()
+		// 	// .focus() // Duy trì focus editor
+		// 	// .deleteRange({ from, to }) // Xóa nội dung cũ
+		// 	.insertContentAt(from, linkContent) // Thêm nội dung mới
+		// 	.setMark('link', linkAttrs) // Gắn lại mark link
+		// 	.setTextSelection({ from, to: from + linkContent.length })
+		// 	.run();
+
+		editor.commands.setTextSelection({ from, to: from + linkContent.length });
+		console.log(linkHover);
+		// editor
+		// 	.chain()
+		// 	.extendMarkRange('link')
+		// 	.deleteSelection()
+		// 	.insertContent( linkContent)
+		// 	.setMark('link', attrs)
+		// 	.run();
+	}
+
+	console.log(editor.getAttributes('link'));
 	if (!mounted) return null;
+
+	const { from, to } = editor.state.selection;
+	const linkContent = editor.state.doc.textBetween(from, to);
 
 	return (
 		<>
-			{shoudlShow() && (
+			{openViewLink && (
 				<div
 					ref={refs.setFloating}
 					onMouseOver={() => {
-						bubbleHoverRef.current = true;
-						clearTimeout(timeOutRef.current!);
+						timeOutRef.current && clearTimeout(timeOutRef.current);
 					}}
 					onMouseOut={() => {
-						bubbleHoverRef.current = false;
 						timeOutRef.current = setTimeout(() => {
-							if (!linkHover) {
-								setLinkHover(null);
+							if (openViewLink) {
+								// setLinkHover(null);
+								setOpenViewLink(false);
 							}
-						}, 300);
+						}, LIVE_TIME);
 					}}
 					style={{
 						...floatingStyles
@@ -152,9 +208,8 @@ export const LinkMenu = ({ editor }: LinkMenuProps) => {
 					<div className="flex gap-2 items-center shadow-sm rounded-lg bg-white p-1 border border-gray-200">
 						{linkHover && (
 							<div className="flex gap-2 items-center px-2">
-								{/* <img src={linkHover.href} className="w-4 h-4 rounded-full" /> */}
 								<Globe className="h-4 w-4" />
-								<span className="text-xs text-gray-500">{linkHover?.href}</span>
+								<span className="text-xs text-gray-500">{linkHover.getAttribute('href')}</span>
 							</div>
 						)}
 						<Button size={'iconSm'} variant={'ghost'} onClick={copyLink}>
@@ -167,8 +222,14 @@ export const LinkMenu = ({ editor }: LinkMenuProps) => {
 				</div>
 			)}
 
-			<ControlledBubbleMenu open={!editor.view.state.selection.empty && shouldShowEditor()} editor={editor}>
-				EDIT LINK
+			<ControlledBubbleMenu open={openEditLink} editor={editor} onOpenChange={setOpenEditLink}>
+				<EditLink
+					linkTitle={linkContent}
+					link={editor.getAttributes('link').href ?? ''}
+					editor={editor}
+					onEditLink={handleEditLink}
+					onEditLinkTitle={handleEditLinkTitle}
+				/>
 			</ControlledBubbleMenu>
 		</>
 	);

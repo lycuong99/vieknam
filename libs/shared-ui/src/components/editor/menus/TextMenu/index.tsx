@@ -16,39 +16,12 @@ import {
 import { Bold, Code, Italic, LinkIcon, Strikethrough, Underline } from 'lucide-react';
 import { ToggleGroup, ToggleGroupItem } from '@shadcn-in-nx/ui/toggle-group';
 import { ButtonHTMLAttributes } from 'react';
+import { useTextmenuStates } from 'libs/shared-ui/src/components/editor/menus/TextMenu/hooks/useTextmenuStates';
+import { MenuButton } from 'libs/shared-ui/src/components/editor/menus/TextMenu/components/MenuButton';
+import { EditLinkPopover } from 'libs/shared-ui/src/components/editor/menus/TextMenu/components/EditLinkPopover';
 
 export type TextMenuProps = {
 	editor: Editor;
-};
-
-type MenuButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
-	tooltip?: string;
-	active?: boolean;
-};
-export const MenuButton = ({ active, tooltip, children, ...rest }: MenuButtonProps) => {
-	const content = (
-		<Button
-			size={'icon'}
-			variant={'ghost'}
-			className={cn({
-				'bg-slate-300 hover:bg-slate-300': active
-			})}
-			{...rest}>
-			{children}
-		</Button>
-	);
-	if (tooltip) {
-		return (
-			<TooltipProvider>
-				<Tooltip>
-					<TooltipTrigger>{content}</TooltipTrigger>
-					<TooltipContent>{tooltip}</TooltipContent>
-				</Tooltip>
-			</TooltipProvider>
-		);
-	}
-
-	return content;
 };
 
 export const TextMenu = ({ editor }: TextMenuProps) => {
@@ -66,9 +39,12 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
 
 	const onCode = () => editor.chain().focus().toggleCode().run();
 	const onLink = (url: string) => editor.chain().focus().setLink({ href: url, target: '_blank' }).run();
+
+	const { shoudShow } = useTextmenuStates(editor);
 	return (
 		<BubbleMenu
 			editor={editor}
+			shouldShow={shoudShow}
 			pluginKey={'text-menu'}
 			tippyOptions={{
 				placement: 'top-start'
@@ -93,25 +69,7 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
 					<Code className="w-4 h-4" />
 				</MenuButton>
 
-				<Popover>
-					<PopoverTrigger>
-						<MenuButton active={isLink} tooltip="Set Link">
-							<LinkIcon className="w-4 h-4" />
-						</MenuButton>
-					</PopoverTrigger>
-					<PopoverContent className="p-1">
-						<Input
-							placeholder="Enter link"
-							onKeyDown={e => {
-								if (e.key === 'Enter') {
-									onLink(e.currentTarget.value);
-									e.currentTarget.value = '';
-								}
-							}}
-						/>
-						<Button onClick={() => onLink('https://linear.app/linear-1999/projects/all')}>Set Link</Button>
-					</PopoverContent>
-				</Popover>
+				<EditLinkPopover active={isLink} setLink={onLink} />
 			</div>
 		</BubbleMenu>
 	);

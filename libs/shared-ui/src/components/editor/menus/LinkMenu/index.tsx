@@ -18,7 +18,6 @@ const LIVE_TIME = 300;
 export const LinkMenu = ({ editor }: LinkMenuProps) => {
 	const [mounted, setMounted] = useState(false);
 	const [linkHover, setLinkHover] = useState<null | HTMLAnchorElement>(null);
-	const bubbleHoverRef = useRef<boolean>(false);
 
 	const [openViewLink, setOpenViewLink] = useState(false);
 	const [openEditLink, setOpenEditLink] = useState(false);
@@ -159,27 +158,19 @@ export const LinkMenu = ({ editor }: LinkMenuProps) => {
 		);
 		editor.view.dispatch(tr); // Cập nhật editor với transaction
 
-		// editor
-		// 	.chain()
-		// 	// .focus() // Duy trì focus editor
-		// 	// .deleteRange({ from, to }) // Xóa nội dung cũ
-		// 	.insertContentAt(from, linkContent) // Thêm nội dung mới
-		// 	.setMark('link', linkAttrs) // Gắn lại mark link
-		// 	.setTextSelection({ from, to: from + linkContent.length })
-		// 	.run();
-
 		editor.commands.setTextSelection({ from, to: from + linkContent.length });
 		console.log(linkHover);
-		// editor
-		// 	.chain()
-		// 	.extendMarkRange('link')
-		// 	.deleteSelection()
-		// 	.insertContent( linkContent)
-		// 	.setMark('link', attrs)
-		// 	.run();
 	}
 
-	console.log(editor.getAttributes('link'));
+	function handleDeleteLink() {
+		const { from, to } = editor.state.selection;
+		const tr = editor.state.tr;
+		tr.removeMark(from, to, editor.schema.marks.link);
+		editor.view.dispatch(tr);
+
+		setOpenEditLink(false);
+	}
+
 	if (!mounted) return null;
 
 	const { from, to } = editor.state.selection;
@@ -229,6 +220,7 @@ export const LinkMenu = ({ editor }: LinkMenuProps) => {
 					editor={editor}
 					onEditLink={handleEditLink}
 					onEditLinkTitle={handleEditLinkTitle}
+					onRemoveLink={handleDeleteLink}
 				/>
 			</ControlledBubbleMenu>
 		</>
